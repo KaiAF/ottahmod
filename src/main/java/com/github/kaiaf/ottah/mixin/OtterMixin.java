@@ -1,6 +1,6 @@
-package me.iris.ottah.ottah.mixin;
+package com.github.kaiaf.ottah.mixin;
 
-import me.iris.ottah.ottah.index;
+import com.github.kaiaf.ottah.index;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;

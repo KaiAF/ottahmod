@@ -1,12 +1,13 @@
-package me.iris.ottah.ottah;
+package com.github.kaiaf.ottah.client.render.entity.model;
 
+import com.github.kaiaf.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
-public class otterentitymodel extends EntityModel<otter> {
+public class OtterEntityModel extends EntityModel<OtterEntity> {
     private final ModelPart front_right;
     private final ModelPart hind_right;
     private final ModelPart front_left;
@@ -16,7 +17,7 @@ public class otterentitymodel extends EntityModel<otter> {
 //    private final ModelPart tail_r1;
     public static ModelTransform DEFAULT_BODY_PIVOT = ModelTransform.pivot(0.0F, 24.0F, -1.0F);
     public static ModelTransform DEFAULT_HEAD_PIVOT = ModelTransform.pivot(0.0F, 17.0F, -6.0F);
-    public otterentitymodel(ModelPart root) {
+    public OtterEntityModel(ModelPart root) {
         this.front_right = root.getChild("front_right");
         this.hind_right = root.getChild("hind_right");
         this.front_left = root.getChild("front_left");
@@ -51,7 +52,7 @@ public class otterentitymodel extends EntityModel<otter> {
     }
 
     @Override
-    public void setAngles(otter entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setAngles(OtterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = netHeadYaw * 0.017453292F;
         this.hind_right.pitch = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;

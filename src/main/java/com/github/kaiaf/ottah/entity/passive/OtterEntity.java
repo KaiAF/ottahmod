@@ -1,6 +1,6 @@
-package me.iris.ottah.ottah;
+package com.github.kaiaf.ottah.entity.passive;
 
-import me.iris.ottah.ottah.sound.sounds;
+import com.github.kaiaf.ottah.sound.OtterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -29,12 +29,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class otter extends AnimalEntity implements Angerable {
+public class OtterEntity extends AnimalEntity implements Angerable {
     private static final TrackedData<Integer> ANGER_TIME;
     private static final UniformIntProvider ANGER_TIME_RANGE;
     @Nullable
     private UUID angryAt;
-    protected otter(EntityType<? extends AnimalEntity> entityType, World world) {
+    public OtterEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -87,7 +87,7 @@ public class otter extends AnimalEntity implements Angerable {
     }
 
     static {
-        ANGER_TIME = DataTracker.registerData(otter.class, TrackedDataHandlerRegistry.INTEGER);
+        ANGER_TIME = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.INTEGER);
         ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
     }
 
@@ -114,19 +114,19 @@ public class otter extends AnimalEntity implements Angerable {
     @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return sounds.ENTITY_OTTER_HURT;
+        return OtterSounds.ENTITY_OTTER_HURT;
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return sounds.ENTITY_OTTER_DEATH;
+        return OtterSounds.ENTITY_OTTER_DEATH;
     }
 
     @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
-        if (this.random.nextInt(3) == 0) return sounds.ENTITY_OTTER_AMBIENCE;
+        if (this.random.nextInt(3) == 0) return OtterSounds.ENTITY_OTTER_AMBIENCE;
         return null;
     }
 

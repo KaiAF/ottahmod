@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.iris.ottah.ottah.mixin",
+  "package": "com.github.kaiaf.ottah.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "OtterMixin"

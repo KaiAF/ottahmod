@@ -5,7 +5,7 @@
   "name": "OttahMod",
   "description": "this adds ottahs to mc",
   "authors": [
-    "irisjs"
+    "IrisJS"
   ],
   "contact": {},
   "license": "MIT",
@@ -13,10 +13,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "me.iris.ottah.ottah.client.index_client"
+      "com.github.kaiaf.ottah.client.index_client"
     ],
     "main": [
-      "me.iris.ottah.ottah.index"
+      "com.github.kaiaf.ottah.index"
     ]
   },
   "mixins": [

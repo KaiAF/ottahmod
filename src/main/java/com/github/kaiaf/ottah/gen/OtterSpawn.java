@@ -1,7 +1,7 @@
-package me.iris.ottah.ottah.gen;
+package com.github.kaiaf.ottah.gen;
 
+import com.github.kaiaf.ottah.index;
 import com.google.common.base.Preconditions;
-import me.iris.ottah.ottah.index;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;

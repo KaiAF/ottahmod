@@ -1,10 +1,10 @@
-package me.iris.ottah.ottah.sound;
+package com.github.kaiaf.ottah.sound;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class sounds {
+public class OtterSounds {
     public static SoundEvent ENTITY_OTTER_HURT = register("entity.otter.hurt");
     public static SoundEvent ENTITY_OTTER_DEATH = register("entity.otter.death");
     public static SoundEvent ENTITY_OTTER_AMBIENCE = register("entity.otter.ambience");
