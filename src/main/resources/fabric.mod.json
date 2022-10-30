@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "ottah",
+  "version": "${version}",
+  "name": "OttahMod",
+  "description": "this adds ottahs to mc",
+  "authors": [
+    "irisjs"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/ottah/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.iris.ottah.ottah.client.index_client"
+    ],
+    "main": [
+      "me.iris.ottah.ottah.index"
+    ]
+  },
+  "mixins": [
+    "ottah.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": "*",
+    "minecraft": "1.19.2"
+  }
+}
