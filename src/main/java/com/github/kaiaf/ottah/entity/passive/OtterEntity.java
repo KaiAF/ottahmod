@@ -15,10 +15,17 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
@@ -71,7 +78,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
 
     public static DefaultAttributeContainer.Builder createOtterAttributes() {
         return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.00000001192092896)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.00000000092092896)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0);
     }
@@ -86,11 +93,6 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         this.dataTracker.startTracking(ANGER_TIME, 0);
     }
 
-    static {
-        ANGER_TIME = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
-    }
-
     @Override
     public boolean tryAttack(Entity target) {
         boolean bl = target.damage(DamageSource.mob(this), (float)((int)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
@@ -99,6 +101,44 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         }
 
         return bl;
+    }
+
+    private void showEmoteParticle(boolean positive) {
+        ParticleEffect particleEffect = ParticleTypes.HEART;
+
+        if (!positive) {
+            particleEffect = ParticleTypes.SMOKE;
+        }
+
+        for (int i = 0; i < 7; ++i) {
+            double d = this.random.nextGaussian() * 0.02;
+            double e = this.random.nextGaussian() * 0.02;
+            double f = this.random.nextGaussian() * 0.02;
+            this.world.addParticle(particleEffect, this.getParticleX(1.0), this.getRandomBodyY() + 0.5, this.getParticleZ(1.0), d, e, f);
+        }
+    }
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getStackInHand(hand);
+        Item item = itemStack.getItem();
+        if (itemStack.isOf(Items.COD) && !this.hasAngerTime()) {
+            if (!player.getAbilities().creativeMode) {
+                itemStack.decrement(1);
+            }
+
+            this.showEmoteParticle(this.random.nextInt(3) == 0);
+            return ActionResult.SUCCESS;
+        }
+        if (itemStack.isOf(Items.TADPOLE_BUCKET) && !this.hasAngerTime()) {
+            if (!player.getAbilities().creativeMode) {
+                itemStack.decrement(1);
+                player.giveItemStack(Items.WATER_BUCKET.getDefaultStack());
+            }
+            this.showEmoteParticle(true);
+            return ActionResult.SUCCESS;
+        }
+        return super.interactMob(player, hand);
     }
 
     @Override
@@ -154,5 +194,10 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     @Override
     public void chooseRandomAngerTime() {
         this.setAngerTime(ANGER_TIME_RANGE.get(this.random));
+    }
+
+    static {
+        ANGER_TIME = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
     }
 }
