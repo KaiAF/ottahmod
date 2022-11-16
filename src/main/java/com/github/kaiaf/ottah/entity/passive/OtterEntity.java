@@ -15,7 +15,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -38,6 +37,8 @@ import java.util.UUID;
 
 public class OtterEntity extends AnimalEntity implements Angerable {
     private static final TrackedData<Integer> ANGER_TIME;
+    private static final TrackedData<Boolean> TRUSTING;
+    private static final TrackedData<String> TRUSTED;
     private static final UniformIntProvider ANGER_TIME_RANGE;
     @Nullable
     private UUID angryAt;
@@ -47,27 +48,48 @@ public class OtterEntity extends AnimalEntity implements Angerable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(12, new LookAtEntityGoal(this, PlayerEntity.class, 10.0F));
-        this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
-        this.goalSelector.add(6, new WanderAroundPointOfInterestGoal(this, 1.0, false));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(12, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.targetSelector.add(8, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.goalSelector.add(6, new WanderAroundPointOfInterestGoal(this, 0.30000001192092896, true));
+        this.goalSelector.add(5, new MeleeAttackGoal(this, 0.90000001192092896, true));
+        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.30000001192092896));
         this.goalSelector.add(4, new LookAroundGoal(this));
-        this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(4, new UniversalAngerGoal<>(this, true));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge(PlayerEntity.class));
         this.goalSelector.add(1, new EscapeDangerGoal(this, 1.3));
         this.goalSelector.add(0, new SwimGoal(this));
-    }
-
-    @Override
-    public boolean isPushedByFluids() {
-        return false;
     }
 
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    }
+
+    private boolean isTrusting() {
+        return this.dataTracker.get(TRUSTING);
+    }
+
+    private String getTrusted() {
+        return this.dataTracker.get(TRUSTED);
+    }
+
+    @Override
+    public boolean shouldAngerAt(LivingEntity entity) {
+        if (entity.getUuidAsString().equals(this.getTrusted())) {
+            this.setAttacker(null);
+            this.setAngryAt(null);
+            this.setTarget(null);
+            this.setAngerTime(0);
+            this.stopAnger();
+            return false;
+        }
+        return Angerable.super.shouldAngerAt(entity);
+    }
+
+    @Override
+    public boolean isPushedByFluids() {
+        return false;
     }
 
     @Nullable
@@ -78,7 +100,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
 
     public static DefaultAttributeContainer.Builder createOtterAttributes() {
         return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.00000000092092896)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.30000001192092896)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0);
     }
@@ -91,6 +113,15 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(ANGER_TIME, 0);
+        this.dataTracker.startTracking(TRUSTING, false);
+        this.dataTracker.startTracking(TRUSTED, null);
+    }
+
+    static {
+        ANGER_TIME = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
+        TRUSTING = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        TRUSTED = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.STRING);
     }
 
     @Override
@@ -118,27 +149,44 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         }
     }
 
+    private void setTrusted(String uuid) {
+        this.dataTracker.set(TRUSTING, true);
+        this.dataTracker.set(TRUSTED, uuid);
+    }
+
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        Item item = itemStack.getItem();
-        if (itemStack.isOf(Items.COD) && !this.hasAngerTime()) {
-            if (!player.getAbilities().creativeMode) {
-                itemStack.decrement(1);
-            }
+        if (!this.isTrusting()) {
+            if (itemStack.isOf(Items.COD) && !this.hasAngerTime()) {
+                if (!player.getAbilities().creativeMode) {
+                    itemStack.decrement(1);
+                }
 
-            this.showEmoteParticle(this.random.nextInt(3) == 0);
-            return ActionResult.SUCCESS;
-        }
-        if (itemStack.isOf(Items.TADPOLE_BUCKET) && !this.hasAngerTime()) {
-            if (!player.getAbilities().creativeMode) {
-                itemStack.decrement(1);
-                player.giveItemStack(Items.WATER_BUCKET.getDefaultStack());
+                if (this.random.nextInt(3) == 0) {
+                    this.showEmoteParticle(true);
+                    this.setTrusted(player.getUuid().toString());
+                } else {
+                    this.showEmoteParticle(false);
+                }
+
+                return ActionResult.SUCCESS;
             }
-            this.showEmoteParticle(true);
-            return ActionResult.SUCCESS;
+            if (itemStack.isOf(Items.TADPOLE_BUCKET) && !this.hasAngerTime()) {
+                if (!player.getAbilities().creativeMode) {
+                    itemStack.decrement(1);
+                    player.giveItemStack(Items.WATER_BUCKET.getDefaultStack());
+                }
+                this.showEmoteParticle(true);
+                this.setTrusted(player.getUuid().toString());
+                return ActionResult.SUCCESS;
+            }
         }
         return super.interactMob(player, hand);
+    }
+
+    public boolean canImmediatelyDespawn(double distanceSquared) {
+        return !this.isTrusting() && this.age > 2400;
     }
 
     @Override
@@ -194,10 +242,5 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     @Override
     public void chooseRandomAngerTime() {
         this.setAngerTime(ANGER_TIME_RANGE.get(this.random));
-    }
-
-    static {
-        ANGER_TIME = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
     }
 }
