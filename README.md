@@ -7,7 +7,8 @@ The reason why I named the mod "OttahMod" instead of "OtterMod" is because I lik
 At the moment, in this mod, otters can be given raw cod and tadpoles in a bucket. This will gain the trust of the otter
 
 #### Development
-I am developing the mod for the current Minecraft version, 1.19.2. I plan on updating it as I go.
+There are many features that are missing with the otter, like, proper animations. I plan to work on them at my own pace! 
+The end-goal is to have a proper Minecraft mob that feels like a brand-new vanilla addition to the game.
 
-#### Texture / Model
-The texture and model was designed by [Jiingy](https://twitter.com/JingyBM)!
+
+###### The texture and model was designed by [Jiingy](https://twitter.com/JingyBM)!

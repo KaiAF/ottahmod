@@ -3,7 +3,7 @@
   "id": "ottah",
   "version": "${version}",
   "name": "OttahMod",
-  "description": "this adds ottahs to mc",
+  "description": "This mod adds otters to Minecraft.",
   "authors": [
     "IrisJS"
   ],
