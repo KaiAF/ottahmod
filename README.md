@@ -10,5 +10,4 @@ At the moment, in this mod, otters can be given raw cod and tadpoles in a bucket
 There are many features that are missing with the otter, like, proper animations. I plan to work on them at my own pace! 
 The end-goal is to have a proper Minecraft mob that feels like a brand-new vanilla addition to the game.
 
-
 ###### The texture and model was designed by [Jiingy](https://twitter.com/JingyBM)!

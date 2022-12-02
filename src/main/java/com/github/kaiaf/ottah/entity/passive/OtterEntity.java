@@ -51,12 +51,12 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         this.goalSelector.add(12, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.add(8, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
         this.goalSelector.add(6, new WanderAroundPointOfInterestGoal(this, 0.30000001192092896, true));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 0.90000001192092896, true));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.30000001192092896));
+        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
+        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.targetSelector.add(4, new UniversalAngerGoal<>(this, true));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge(PlayerEntity.class));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.3));
+        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.5));
         this.goalSelector.add(0, new SwimGoal(this));
     }
 
