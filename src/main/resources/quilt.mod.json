@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "net.livzmc",
+    "id": "ottah",
+    "version": "A1-pre_2",
+    "metadata": {
+      "name": "OttahMod",
+      "description": "This mod adds otters to Minecraft.",
+      "contributors": {
+        "IrisJS": "Developer"
+      },
+      "contact": {
+        "homepage": "https://github.com/KaiAF/OttahMod",
+        "issues": "https://github.com/KaiAF/OttahMod/issues",
+        "sources": "https://github.com/KaiAF/OttahMod"
+      },
+      "icon": "assets/ottah/icon.png"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": "net.livzmc.ottah.OttahMod"
+    },
+    "depends": [
+      {
+        "id": "quilt_loader",
+        "versions": ">=0.17.0-"
+      },
+      {
+        "id": "quilted_fabric_api",
+        "versions": ">=4.0.0-"
+      },
+      {
+        "id": "minecraft",
+        "versions": ">=1.19.3"
+      }
+    ]
+  },
+  "mixin": "ottah.mixins.json"
+}
