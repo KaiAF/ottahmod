@@ -1,6 +1,6 @@
-package com.github.kaiaf.ottah.entity.passive;
+package net.livzmc.ottah.entity.passive;
 
-import com.github.kaiaf.ottah.sound.OtterSounds;
+import net.livzmc.ottah.sound.OtterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -114,7 +114,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         super.initDataTracker();
         this.dataTracker.startTracking(ANGER_TIME, 0);
         this.dataTracker.startTracking(TRUSTING, false);
-        this.dataTracker.startTracking(TRUSTED, null);
+        this.dataTracker.startTracking(TRUSTED, "");
     }
 
     static {

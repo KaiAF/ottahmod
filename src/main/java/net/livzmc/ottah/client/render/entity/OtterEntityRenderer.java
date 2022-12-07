@@ -1,8 +1,8 @@
-package com.github.kaiaf.ottah.client.render.entity;
+package net.livzmc.ottah.client.render.entity;
 
-import com.github.kaiaf.ottah.client.OttahModClient;
-import com.github.kaiaf.ottah.client.render.entity.model.OtterEntityModel;
-import com.github.kaiaf.ottah.entity.passive.OtterEntity;
+import net.livzmc.ottah.client.OttahModClient;
+import net.livzmc.ottah.client.render.entity.model.OtterEntityModel;
+import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;

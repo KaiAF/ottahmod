@@ -1,8 +1,8 @@
-package com.github.kaiaf.ottah.client;
+package net.livzmc.ottah.client;
 
-import com.github.kaiaf.ottah.OttahMod;
-import com.github.kaiaf.ottah.client.render.entity.model.OtterEntityModel;
-import com.github.kaiaf.ottah.client.render.entity.OtterEntityRenderer;
+import net.livzmc.ottah.OttahMod;
+import net.livzmc.ottah.client.render.entity.model.OtterEntityModel;
+import net.livzmc.ottah.client.render.entity.OtterEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

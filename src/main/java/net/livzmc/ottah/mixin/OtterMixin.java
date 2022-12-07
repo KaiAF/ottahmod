@@ -1,6 +1,6 @@
-package com.github.kaiaf.ottah.mixin;
+package net.livzmc.ottah.mixin;
 
-import com.github.kaiaf.ottah.OttahMod;
+import net.livzmc.ottah.OttahMod;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;

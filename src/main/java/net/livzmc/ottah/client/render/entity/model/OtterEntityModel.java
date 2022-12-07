@@ -1,6 +1,6 @@
-package com.github.kaiaf.ottah.client.render.entity.model;
+package net.livzmc.ottah.client.render.entity.model;
 
-import com.github.kaiaf.ottah.entity.passive.OtterEntity;
+import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
