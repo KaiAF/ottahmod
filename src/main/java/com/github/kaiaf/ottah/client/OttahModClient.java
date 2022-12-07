@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class index_client implements ClientModInitializer {
+public class OttahModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier("ottah", "otter"), "main");
     @Override
     public void onInitializeClient() {

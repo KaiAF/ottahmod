@@ -1,6 +1,6 @@
 package com.github.kaiaf.ottah.client.render.entity;
 
-import com.github.kaiaf.ottah.client.index_client;
+import com.github.kaiaf.ottah.client.OttahModClient;
 import com.github.kaiaf.ottah.client.render.entity.model.OtterEntityModel;
 import com.github.kaiaf.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class OtterEntityRenderer extends MobEntityRenderer<OtterEntity, OtterEntityModel> {
     public OtterEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new OtterEntityModel(context.getPart(index_client.MODEL_OTTER_LAYER)), 0.4f);
+        super(context, new OtterEntityModel(context.getPart(OttahModClient.MODEL_OTTER_LAYER)), 0.4f);
     }
 
     @Override
