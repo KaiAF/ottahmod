@@ -1,6 +1,6 @@
 package com.github.kaiaf.ottah.gen;
 
-import com.github.kaiaf.ottah.index;
+import com.github.kaiaf.ottah.OttahMod;
 import com.google.common.base.Preconditions;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -29,7 +29,7 @@ public class OtterSpawn {
 
     private static void normalSpawn() {
         Predicate<BiomeSelectionContext> biomeSelector = tag(BiomeTags.IS_BEACH);
-        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), index.Otter.getSpawnGroup(), new SpawnSettings.SpawnEntry(index.Otter, SpawnRate, 2, 4));
+        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.Otter.getSpawnGroup(), new SpawnSettings.SpawnEntry(OttahMod.Otter, SpawnRate, 2, 4));
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {

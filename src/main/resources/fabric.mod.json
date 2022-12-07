@@ -16,7 +16,7 @@
       "com.github.kaiaf.ottah.client.index_client"
     ],
     "main": [
-      "com.github.kaiaf.ottah.index"
+      "com.github.kaiaf.ottah.OttahMod"
     ]
   },
   "mixins": [

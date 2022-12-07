@@ -12,7 +12,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class index implements ModInitializer {
+public class OttahMod implements ModInitializer {
     public static final EntityType<OtterEntity> Otter = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("ottah", "otter"),

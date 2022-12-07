@@ -1,6 +1,6 @@
 package com.github.kaiaf.ottah.client;
 
-import com.github.kaiaf.ottah.index;
+import com.github.kaiaf.ottah.OttahMod;
 import com.github.kaiaf.ottah.client.render.entity.model.OtterEntityModel;
 import com.github.kaiaf.ottah.client.render.entity.OtterEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,7 +16,7 @@ public class index_client implements ClientModInitializer {
     public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier("ottah", "otter"), "main");
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(index.Otter, OtterEntityRenderer::new);
+        EntityRendererRegistry.register(OttahMod.Otter, OtterEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_OTTER_LAYER, OtterEntityModel::getTexturedModelData);
     }
