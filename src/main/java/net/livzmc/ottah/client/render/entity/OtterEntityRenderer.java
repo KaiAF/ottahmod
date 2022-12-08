@@ -14,6 +14,6 @@ public class OtterEntityRenderer extends MobEntityRenderer<OtterEntity, OtterEnt
 
     @Override
     public Identifier getTexture(OtterEntity entity) {
-        return new Identifier("ottah", "textures/entity/otter/otter.png");
+        return new Identifier("ottah", "textures/entity/otter.png");
     }
 }
