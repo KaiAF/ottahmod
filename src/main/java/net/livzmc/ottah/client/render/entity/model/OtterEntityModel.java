@@ -36,13 +36,13 @@ public class OtterEntityModel extends EntityModel<OtterEntity> {
 
         ModelPartData tail_r1 = tail.addChild("tail_r1", ModelPartBuilder.create().uv(9, 21).cuboid(-2.0F, -0.55F, -4.6F, 3.0F, 3.0F, 8.0F, new Dilation(0.0F)), ModelTransform.of(0.5F, 1.0F, 4.0F, -0.3491F, 0.0F, 0.0F));
 
-        ModelPartData front_right = modelPartData.addChild("front_right", ModelPartBuilder.create().uv(21, 0).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
+        ModelPartData front_right = modelPartData.addChild("front_right", ModelPartBuilder.create().uv(21, 5).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
                 .uv(22, 18).cuboid(-1.0F, 2.001F, -2.0F, 2.0F, 0.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 22.0F, -3.0F));
 
         ModelPartData hind_right = modelPartData.addChild("hind_right", ModelPartBuilder.create().uv(21, 5).cuboid(-1.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
                 .uv(22, 18).cuboid(-1.0F, 2.001F, -2.0F, 2.0F, 0.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(-2.0F, 22.0F, 5.0F));
 
-        ModelPartData front_left = modelPartData.addChild("front_left", ModelPartBuilder.create().uv(1, 0).cuboid(-2.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
+        ModelPartData front_left = modelPartData.addChild("front_left", ModelPartBuilder.create().uv(1, 5).cuboid(-2.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
                 .uv(22, 15).cuboid(-2.0F, 2.001F, -2.0F, 2.0F, 0.0F, 3.0F, new Dilation(0.0F)), ModelTransform.pivot(2.0F, 22.0F, -3.0F));
 
         ModelPartData hind_left = modelPartData.addChild("hind_left", ModelPartBuilder.create().uv(1, 5).cuboid(-2.0F, -1.0F, -1.0F, 2.0F, 3.0F, 2.0F, new Dilation(0.0F))
