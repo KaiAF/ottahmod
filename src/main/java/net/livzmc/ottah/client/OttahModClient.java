@@ -1,8 +1,8 @@
-package com.github.kaiaf.ottah.client;
+package net.livzmc.ottah.client;
 
-import com.github.kaiaf.ottah.index;
-import com.github.kaiaf.ottah.client.render.entity.model.OtterEntityModel;
-import com.github.kaiaf.ottah.client.render.entity.OtterEntityRenderer;
+import net.livzmc.ottah.OttahMod;
+import net.livzmc.ottah.client.render.entity.model.OtterEntityModel;
+import net.livzmc.ottah.client.render.entity.OtterEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,11 +12,11 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class index_client implements ClientModInitializer {
+public class OttahModClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier("ottah", "otter"), "main");
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(index.Otter, OtterEntityRenderer::new);
+        EntityRendererRegistry.register(OttahMod.Otter, OtterEntityRenderer::new);
 
         EntityModelLayerRegistry.registerModelLayer(MODEL_OTTER_LAYER, OtterEntityModel::getTexturedModelData);
     }

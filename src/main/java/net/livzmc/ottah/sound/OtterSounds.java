@@ -1,4 +1,4 @@
-package com.github.kaiaf.ottah.sound;
+package net.livzmc.ottah.sound;
 
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;

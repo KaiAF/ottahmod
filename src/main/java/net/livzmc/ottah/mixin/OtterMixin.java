@@ -1,6 +1,6 @@
-package com.github.kaiaf.ottah.mixin;
+package net.livzmc.ottah.mixin;
 
-import com.github.kaiaf.ottah.index;
+import net.livzmc.ottah.OttahMod;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
@@ -16,6 +16,6 @@ public class OtterMixin {
     }
 
     static {
-        register(index.Otter, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canMobSpawn);
+        register(OttahMod.Otter, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canMobSpawn);
     }
 }

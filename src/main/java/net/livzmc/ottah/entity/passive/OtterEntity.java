@@ -1,6 +1,6 @@
-package com.github.kaiaf.ottah.entity.passive;
+package net.livzmc.ottah.entity.passive;
 
-import com.github.kaiaf.ottah.sound.OtterSounds;
+import net.livzmc.ottah.sound.OtterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
