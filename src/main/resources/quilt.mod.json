@@ -19,7 +19,8 @@
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
     "entrypoints": {
-      "init": "net.livzmc.ottah.OttahMod"
+      "main": "net.livzmc.ottah.OttahMod",
+      "client": "net.livzmc.ottah.client.OttahModClient"
     },
     "depends": [
       {
