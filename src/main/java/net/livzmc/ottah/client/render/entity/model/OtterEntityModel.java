@@ -1,13 +1,16 @@
 package net.livzmc.ottah.client.render.entity.model;
 
+import net.livzmc.ottah.client.render.entity.animation.OtterAnimations;
 import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class OtterEntityModel extends EntityModel<OtterEntity> {
+public class OtterEntityModel<T extends AnimalEntity> extends SinglePartEntityModel<T> {
+    private final ModelPart root;
     private final ModelPart front_right;
     private final ModelPart hind_right;
     private final ModelPart front_left;
@@ -18,6 +21,7 @@ public class OtterEntityModel extends EntityModel<OtterEntity> {
     public static ModelTransform DEFAULT_BODY_PIVOT = ModelTransform.pivot(0.0F, 24.0F, -1.0F);
     public static ModelTransform DEFAULT_HEAD_PIVOT = ModelTransform.pivot(0.0F, 17.0F, -6.0F);
     public OtterEntityModel(ModelPart root) {
+        this.root = root;
         this.front_right = root.getChild("front_right");
         this.hind_right = root.getChild("hind_right");
         this.front_left = root.getChild("front_left");
@@ -56,19 +60,6 @@ public class OtterEntityModel extends EntityModel<OtterEntity> {
     }
 
     @Override
-    public void setAngles(OtterEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.pitch = headPitch * 0.017453292F;
-        this.head.yaw = netHeadYaw * 0.017453292F;
-        this.hind_right.pitch = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
-        this.hind_left.pitch = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * limbSwingAmount;
-        this.front_right.pitch = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * limbSwingAmount;
-        this.front_left.pitch = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
-        // I can't tell if I should make this pitch instead of yaw.
-        // It looks "OK" either way.
-        this.tail.yaw = 0.17123894F * MathHelper.cos(limbSwing) * limbSwingAmount;
-    }
-
-    @Override
     public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
         head.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
         body.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
@@ -77,5 +68,18 @@ public class OtterEntityModel extends EntityModel<OtterEntity> {
         hind_right.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
         hind_left.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
         tail.render(matrices, vertexConsumer, light, overlay, red, green, blue, alpha);
+    }
+
+    @Override
+    public ModelPart getPart() {
+        return this.root;
+    }
+
+    @Override
+    public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        this.getPart().traverse().forEach(ModelPart::resetTransform);
+        float horizontalVelocity = (float) entity.getVelocity().horizontalLengthSquared();
+        float speedMultiplier = MathHelper.clamp(horizontalVelocity * 8000.0F, 0.5F, 1.5F);
+        this.updateAnimation(OtterEntity.WALK_ANIMATION, OtterAnimations.WALK, animationProgress, speedMultiplier);
     }
 }

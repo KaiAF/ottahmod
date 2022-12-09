@@ -42,6 +42,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     private static final UniformIntProvider ANGER_TIME_RANGE;
     @Nullable
     private UUID angryAt;
+    public static AnimationState WALK_ANIMATION = new AnimationState();
     public OtterEntity(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -127,6 +128,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     @Override
     public boolean tryAttack(Entity target) {
         boolean bl = target.damage(DamageSource.mob(this), (float)((int)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
+
         if (bl) {
             this.applyDamageEffects(this, target);
         }
@@ -152,6 +154,22 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     private void setTrusted(String uuid) {
         this.dataTracker.set(TRUSTING, true);
         this.dataTracker.set(TRUSTED, uuid);
+    }
+
+    @Override
+    public void tick() {
+        if (this.world.isClient) {
+            if (this.shouldWalk()) {
+                this.WALK_ANIMATION.startIfNotRunning(this.age);
+            } else {
+                this.WALK_ANIMATION.stop();
+            }
+        }
+        super.tick();
+    }
+
+    private boolean shouldWalk() {
+        return this.onGround && this.getVelocity().horizontalLengthSquared() > 1.0E-6 && !this.isInsideWaterOrBubbleColumn();
     }
 
     @Override

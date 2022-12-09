@@ -17,7 +17,6 @@ public class OttahModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(OttahMod.Otter, OtterEntityRenderer::new);
-
         EntityModelLayerRegistry.registerModelLayer(MODEL_OTTER_LAYER, OtterEntityModel::getTexturedModelData);
     }
 }
