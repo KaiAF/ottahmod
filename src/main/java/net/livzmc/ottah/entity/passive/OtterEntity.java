@@ -1,5 +1,6 @@
 package net.livzmc.ottah.entity.passive;
 
+import net.livzmc.ottah.OttahMod;
 import net.livzmc.ottah.sound.OtterSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
@@ -49,16 +50,16 @@ public class OtterEntity extends AnimalEntity implements Angerable {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(12, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.targetSelector.add(8, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
-        this.goalSelector.add(6, new WanderAroundPointOfInterestGoal(this, 0.30000001192092896, true));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.targetSelector.add(4, new UniversalAngerGoal<>(this, true));
-        this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge(PlayerEntity.class));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.5));
         this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.5));
+        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, true));
+        this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
+        this.goalSelector.add(4, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(6, new LookAroundGoal(this));
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(2, (new RevengeGoal(this)).setGroupRevenge(PlayerEntity.class));
+        this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
     }
 
     @Nullable
@@ -101,7 +102,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     @Nullable
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
+        return OttahMod.OTTER.create(world);
     }
 
     public static DefaultAttributeContainer.Builder createOtterAttributes() {
