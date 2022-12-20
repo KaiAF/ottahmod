@@ -19,7 +19,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class OttahMod implements ModInitializer {
-    public static final EntityType<OtterEntity> Otter = Registry.register(
+    public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
             new Identifier("ottah", "otter"),
             FabricEntityTypeBuilder
@@ -29,11 +29,11 @@ public class OttahMod implements ModInitializer {
     );
 
     // create an instance of SpawnEggItem
-    public static final Item OTTER_SPAWN_EGG = new SpawnEggItem(Otter, 0x866a67, 0xb3a28e, new FabricItemSettings());
+    public static final Item OTTER_SPAWN_EGG = new SpawnEggItem(OTTER, 0x866a67, 0xb3a28e, new FabricItemSettings());
 
     @Override
     public void onInitialize() {
-        FabricDefaultAttributeRegistry.register(Otter, OtterEntity.createOtterAttributes());
+        FabricDefaultAttributeRegistry.register(OTTER, OtterEntity.createOtterAttributes());
         new OtterSounds();
         OtterSpawn.init();
 

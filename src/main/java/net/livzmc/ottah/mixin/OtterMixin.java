@@ -16,6 +16,6 @@ public class OtterMixin {
     }
 
     static {
-        register(OttahMod.Otter, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canMobSpawn);
+        register(OttahMod.OTTER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canMobSpawn);
     }
 }

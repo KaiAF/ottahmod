@@ -29,7 +29,7 @@ public class OtterSpawn {
 
     private static void normalSpawn() {
         Predicate<BiomeSelectionContext> biomeSelector = tag(BiomeTags.IS_BEACH);
-        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.Otter.getSpawnGroup(), new SpawnSettings.SpawnEntry(OttahMod.Otter, SpawnRate, 2, 4));
+        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.OTTER.getSpawnGroup(), new SpawnSettings.SpawnEntry(OttahMod.OTTER, SpawnRate, 2, 4));
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {
