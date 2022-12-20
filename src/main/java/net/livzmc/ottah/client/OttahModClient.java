@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class OttahModClient implements ClientModInitializer {
-    public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier("ottah", "otter"), "main");
+    public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier(OttahMod.MOD_ID, "otter"), "main");
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(OttahMod.OTTER, OtterEntityRenderer::new);
