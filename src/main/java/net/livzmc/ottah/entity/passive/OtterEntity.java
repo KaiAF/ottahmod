@@ -99,9 +99,8 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         return stack.isOf(Items.TROPICAL_FISH);
     }
 
-    @Nullable
     @Override
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
+    public OtterEntity createChild(ServerWorld world, PassiveEntity entity) {
         return OttahMod.OTTER.create(world);
     }
 
