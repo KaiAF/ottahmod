@@ -19,6 +19,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class OttahMod implements ModInitializer {
+    public static final String MOD_ID = "livzmc";
+
     public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
             new Identifier("ottah", "otter"),
