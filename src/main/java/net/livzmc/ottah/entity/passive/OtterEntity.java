@@ -93,6 +93,11 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         return false;
     }
 
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.isOf(Items.TROPICAL_FISH);
+    }
+
     @Nullable
     @Override
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
