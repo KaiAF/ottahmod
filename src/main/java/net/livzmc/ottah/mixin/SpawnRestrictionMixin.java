@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(SpawnRestriction.class)
-public class OtterMixin {
+public class SpawnRestrictionMixin {
     @Shadow
     public static <T extends MobEntity> void register(EntityType<T> type, SpawnRestriction.Location location, Heightmap.Type heightType, SpawnRestriction.SpawnPredicate<T> predicate) {
     }
