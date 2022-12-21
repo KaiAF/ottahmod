@@ -26,7 +26,7 @@ public class OttahMod implements ModInitializer {
             new Identifier(OttahMod.MOD_ID, "otter"),
             FabricEntityTypeBuilder
                     .create(SpawnGroup.CREATURE, OtterEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.55f, 0.55f))
+                    .dimensions(EntityDimensions.fixed(0.6F, 0.55F))
                     .build()
     );
 

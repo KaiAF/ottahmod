@@ -112,6 +112,11 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     }
 
     @Override
+    protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
+        return this.isBaby() ? dimensions.height * 0.25F : dimensions.height - 0.075F;
+    }
+
+    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
