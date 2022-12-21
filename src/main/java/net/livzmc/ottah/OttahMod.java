@@ -23,10 +23,10 @@ public class OttahMod implements ModInitializer {
 
     public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier("ottah", "otter"),
+            new Identifier(OttahMod.MOD_ID, "otter"),
             FabricEntityTypeBuilder
                     .create(SpawnGroup.CREATURE, OtterEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.7f, 0.7f))
+                    .dimensions(EntityDimensions.fixed(0.55f, 0.55f))
                     .build()
     );
 
