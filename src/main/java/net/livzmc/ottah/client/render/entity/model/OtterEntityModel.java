@@ -1,16 +1,19 @@
 package net.livzmc.ottah.client.render.entity.model;
 
+import com.google.common.collect.ImmutableList;
 import net.livzmc.ottah.client.render.entity.animation.OtterAnimations;
 import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.model.*;
+import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class OtterEntityModel<T extends AnimalEntity> extends SinglePartEntityModel<T> {
+public class OtterEntityModel<T extends AnimalEntity> extends AnimalModel<T> {
     private final ModelPart root;
     private final ModelPart head;
+    private final ModelPart body;
     private final ModelPart right_front_leg;
     private final ModelPart left_front_leg;
     private final ModelPart right_hind_leg;
@@ -22,7 +25,7 @@ public class OtterEntityModel<T extends AnimalEntity> extends SinglePartEntityMo
     public OtterEntityModel(ModelPart root) {
         this.root = root;
         this.head = root.getChild(EntityModelPartNames.HEAD);
-        ModelPart body = root.getChild(EntityModelPartNames.BODY);
+        this.body = root.getChild(EntityModelPartNames.BODY);
         this.right_front_leg = root.getChild(EntityModelPartNames.RIGHT_FRONT_LEG);
         this.left_front_leg = root.getChild(EntityModelPartNames.LEFT_FRONT_LEG);
         this.right_hind_leg = root.getChild(EntityModelPartNames.RIGHT_HIND_LEG);
@@ -69,13 +72,17 @@ public class OtterEntityModel<T extends AnimalEntity> extends SinglePartEntityMo
     }
 
     @Override
-    public ModelPart getPart() {
-        return this.root;
+    protected Iterable<ModelPart> getHeadParts() {
+        return ImmutableList.of(this.head);
+    }
+
+    @Override
+    protected Iterable<ModelPart> getBodyParts() {
+        return ImmutableList.of(this.body, this.right_front_leg, this.right_hind_leg, this.left_front_leg, this.left_hind_leg);
     }
 
     @Override
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.getPart().traverse().forEach(ModelPart::resetTransform);
         this.head.pitch = headPitch * 0.017453292F;
         this.head.yaw = headYaw * 0.017453292F;
         this.right_hind_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * limbDistance;
@@ -83,8 +90,5 @@ public class OtterEntityModel<T extends AnimalEntity> extends SinglePartEntityMo
         this.right_front_leg.pitch = MathHelper.cos(limbAngle * 0.6662F + 3.1415927F) * limbDistance;
         this.left_front_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * limbDistance;
         this.tail.yaw = 0.17123894F * MathHelper.cos(limbAngle) * limbDistance;
-        float horizontalVelocity = (float) entity.getVelocity().horizontalLengthSquared();
-        float speedMultiplier = MathHelper.clamp(horizontalVelocity * 8000.0F, 0.5F, 1.5F);
-        this.updateAnimation(OtterEntity.WALK_ANIMATION, OtterAnimations.WALK, animationProgress, speedMultiplier);
     }
 }
