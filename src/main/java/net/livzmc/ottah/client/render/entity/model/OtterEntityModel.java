@@ -86,9 +86,4 @@ public class OtterEntityModel<T extends AnimalEntity> extends AnimalModel<T> {
         this.left_front_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * limbDistance;
         this.tail.yaw = 0.17123894F * MathHelper.cos(limbAngle) * limbDistance;
     }
-
-//    @Override
-//    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-//
-//    }
 }

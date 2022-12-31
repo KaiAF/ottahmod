@@ -19,7 +19,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class OttahMod implements ModInitializer {
-    public static final String MOD_ID = "livzmc";
+    public static final String MOD_ID = "ottah";
 
     public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
@@ -30,7 +30,6 @@ public class OttahMod implements ModInitializer {
                     .build()
     );
 
-    // create an instance of SpawnEggItem
     public static final Item OTTER_SPAWN_EGG = new SpawnEggItem(OTTER, 0x866a67, 0xb3a28e, new FabricItemSettings());
 
     @Override
@@ -39,7 +38,6 @@ public class OttahMod implements ModInitializer {
         new OtterSounds();
         OtterSpawn.init();
 
-        // register the item OTTER_SPAWN_EGG and adds the item OTTER_SPAWN_EGG to the vanilla "Spawn Eggs" creative tab
         Registry.register(Registries.ITEM, new Identifier(MOD_ID,"otter_spawn_egg"), OTTER_SPAWN_EGG);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(entries -> entries.add(OTTER_SPAWN_EGG));
     }
