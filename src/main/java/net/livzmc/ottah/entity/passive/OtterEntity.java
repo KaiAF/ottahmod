@@ -54,9 +54,10 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         this.goalSelector.add(1, new EscapeDangerGoal(this, 1.5));
         this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(4, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(6, new LookAroundGoal(this));
+        this.goalSelector.add(4, new FollowParentGoal(this, 1.0));
+        this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(7, new LookAroundGoal(this));
         this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
         this.targetSelector.add(2, (new RevengeGoal(this)).setGroupRevenge(PlayerEntity.class));
         this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
@@ -101,7 +102,7 @@ public class OtterEntity extends AnimalEntity implements Angerable {
 
     @Nullable
     public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return (OtterEntity)OttahMod.OTTER.create(world);
+        return OttahMod.OTTER.create(world);
     }
 
     public static DefaultAttributeContainer.Builder createOtterAttributes() {
@@ -170,9 +171,9 @@ public class OtterEntity extends AnimalEntity implements Angerable {
     public void tick() {
         if (this.world.isClient) {
             if (this.shouldWalk()) {
-                this.WALK_ANIMATION.startIfNotRunning(this.age);
+                WALK_ANIMATION.startIfNotRunning(this.age);
             } else {
-                this.WALK_ANIMATION.stop();
+                WALK_ANIMATION.stop();
             }
         }
         super.tick();

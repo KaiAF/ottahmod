@@ -1,17 +1,13 @@
 package net.livzmc.ottah.client.render.entity.model;
 
 import com.google.common.collect.ImmutableList;
-import net.livzmc.ottah.client.render.entity.animation.OtterAnimations;
-import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.MathHelper;
 
 public class OtterEntityModel<T extends AnimalEntity> extends AnimalModel<T> {
-    private final ModelPart root;
     private final ModelPart head;
     private final ModelPart body;
     private final ModelPart right_front_leg;
@@ -23,15 +19,14 @@ public class OtterEntityModel<T extends AnimalEntity> extends AnimalModel<T> {
     public static ModelTransform DEFAULT_HEAD_PIVOT = ModelTransform.pivot(0.0F, 17.0F, -6.0F);
 
     public OtterEntityModel(ModelPart root) {
-        this.root = root;
+        super(true, 10.0F, 1.5F);
         this.head = root.getChild(EntityModelPartNames.HEAD);
         this.body = root.getChild(EntityModelPartNames.BODY);
         this.right_front_leg = root.getChild(EntityModelPartNames.RIGHT_FRONT_LEG);
         this.left_front_leg = root.getChild(EntityModelPartNames.LEFT_FRONT_LEG);
         this.right_hind_leg = root.getChild(EntityModelPartNames.RIGHT_HIND_LEG);
         this.left_hind_leg = root.getChild(EntityModelPartNames.LEFT_HIND_LEG);
-        this.tail = body.getChild(EntityModelPartNames.TAIL);
-
+        this.tail = this.body.getChild(EntityModelPartNames.TAIL);
     }
 
     public static TexturedModelData getTexturedModelData() {
@@ -91,4 +86,9 @@ public class OtterEntityModel<T extends AnimalEntity> extends AnimalModel<T> {
         this.left_front_leg.pitch = MathHelper.cos(limbAngle * 0.6662F) * limbDistance;
         this.tail.yaw = 0.17123894F * MathHelper.cos(limbAngle) * limbDistance;
     }
+
+//    @Override
+//    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+//
+//    }
 }
