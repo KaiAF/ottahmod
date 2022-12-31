@@ -112,9 +112,13 @@ public class OtterEntity extends AnimalEntity implements Angerable {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0);
     }
 
+    public float getScaleFactor() {
+        return this.isBaby() ? 0.55F : 1.0F;
+    }
+
     @Override
     protected float getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions) {
-        return this.isBaby() ? dimensions.height * 0.25F : dimensions.height - 0.075F;
+        return this.isBaby() ? dimensions.height * 0.85F : dimensions.height - 0.075F;
     }
 
     @Override
@@ -135,6 +139,8 @@ public class OtterEntity extends AnimalEntity implements Angerable {
         TRUSTING = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
         TRUSTED = DataTracker.registerData(OtterEntity.class, TrackedDataHandlerRegistry.STRING);
     }
+
+
 
     @Override
     public boolean tryAttack(Entity target) {
