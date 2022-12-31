@@ -19,26 +19,28 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class OttahMod implements ModInitializer {
-    public static final EntityType<OtterEntity> Otter = Registry.register(
+    public static final String MOD_ID = "livzmc";
+
+    public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier("ottah", "otter"),
+            new Identifier(OttahMod.MOD_ID, "otter"),
             FabricEntityTypeBuilder
                     .create(SpawnGroup.CREATURE, OtterEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.7f, 0.7f))
+                    .dimensions(EntityDimensions.changing(0.6F, 0.55F))
                     .build()
     );
 
     // create an instance of SpawnEggItem
-    public static final Item OTTER_SPAWN_EGG = new SpawnEggItem(Otter, 0x866a67, 0xb3a28e, new FabricItemSettings());
+    public static final Item OTTER_SPAWN_EGG = new SpawnEggItem(OTTER, 0x866a67, 0xb3a28e, new FabricItemSettings());
 
     @Override
     public void onInitialize() {
-        FabricDefaultAttributeRegistry.register(Otter, OtterEntity.createOtterAttributes());
+        FabricDefaultAttributeRegistry.register(OTTER, OtterEntity.createOtterAttributes());
         new OtterSounds();
         OtterSpawn.init();
 
         // register the item OTTER_SPAWN_EGG and adds the item OTTER_SPAWN_EGG to the vanilla "Spawn Eggs" creative tab
-        Registry.register(Registries.ITEM, new Identifier("ottah","otter_spawn_egg"), OTTER_SPAWN_EGG);
+        Registry.register(Registries.ITEM, new Identifier(MOD_ID,"otter_spawn_egg"), OTTER_SPAWN_EGG);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(entries -> entries.add(OTTER_SPAWN_EGG));
     }
 }
