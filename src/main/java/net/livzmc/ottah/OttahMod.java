@@ -19,11 +19,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class OttahMod implements ModInitializer {
-    public static final String MOD_ID = "ottah";
-
     public static final EntityType<OtterEntity> OTTER = Registry.register(
             Registries.ENTITY_TYPE,
-            new Identifier(OttahMod.MOD_ID, "otter"),
+            new Identifier(Config.MOD_ID, "otter"),
             FabricEntityTypeBuilder
                     .create(SpawnGroup.CREATURE, OtterEntity::new)
                     .dimensions(EntityDimensions.changing(0.6F, 0.55F))
@@ -38,7 +36,7 @@ public class OttahMod implements ModInitializer {
         new OtterSounds();
         OtterSpawn.init();
 
-        Registry.register(Registries.ITEM, new Identifier(MOD_ID,"otter_spawn_egg"), OTTER_SPAWN_EGG);
+        Registry.register(Registries.ITEM, new Identifier(Config.MOD_ID,"otter_spawn_egg"), OTTER_SPAWN_EGG);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(entries -> entries.add(OTTER_SPAWN_EGG));
     }
 }

@@ -22,6 +22,8 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation group: 'org.json', name: 'json', version: '20090211'
+    include group: 'org.json', name: 'json', version: '20090211'
 }
 
 processResources {
@@ -60,6 +62,19 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
+    }
+    duplicatesStrategy 'include'
+    from("/src/main/resources/fabric.mod.json") {
+        filter {
+            String line -> line.replaceAll("MOD_VERSION", project.mod_version)
+        }
+        rename { "fabric.mod.json" }
+    }
+    from("/src/main/resources/quilt.mod.json") {
+        filter {
+            String line -> line.replaceAll("MOD_VERSION", project.mod_version)
+        }
+        rename { "quilt.mod.json" }
     }
 }
 

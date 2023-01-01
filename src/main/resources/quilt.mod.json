@@ -3,7 +3,7 @@
   "quilt_loader": {
     "group": "net.livzmc",
     "id": "ottah",
-    "version": "A1-pre_5",
+    "version": "MOD_VERSION",
     "metadata": {
       "name": "OttahMod",
       "description": "This mod adds otters to Minecraft.",
