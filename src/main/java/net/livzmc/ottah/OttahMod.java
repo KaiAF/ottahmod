@@ -36,7 +36,7 @@ public class OttahMod implements ModInitializer {
         new OtterSounds();
         OtterSpawn.init();
 
-        Registry.register(Registries.ITEM, new Identifier(Config.MOD_ID,"otter_spawn_egg"), OTTER_SPAWN_EGG);
+        Registry.register(Registries.ITEM, new Identifier(Config.MOD_ID, "otter_spawn_egg"), OTTER_SPAWN_EGG);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(entries -> entries.add(OTTER_SPAWN_EGG));
     }
 }
