@@ -1,6 +1,8 @@
 package net.livzmc.ottah.entity.passive;
 
 import net.livzmc.ottah.OttahMod;
+import net.livzmc.ottah.entity.goals.OtterBreedGoal;
+import net.livzmc.ottah.entity.goals.OtterFindLandGoal;
 import net.livzmc.ottah.sound.OtterSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -29,7 +31,6 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.FollowParentGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -52,7 +53,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class OtterEntity extends Animal implements NeutralMob {
+public class Otter extends Animal implements NeutralMob {
     public static AnimationState WALK_ANIMATION = new AnimationState();
     private static final EntityDataAccessor<Integer> ANGER_TIME;
     private static final EntityDataAccessor<Boolean> TRUSTING;
@@ -61,13 +62,13 @@ public class OtterEntity extends Animal implements NeutralMob {
     @Nullable private UUID angryAt;
 
     static {
-        ANGER_TIME = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.INT);
+        ANGER_TIME = SynchedEntityData.defineId(Otter.class, EntityDataSerializers.INT);
         ANGER_TIME_RANGE = TimeUtil.rangeOfSeconds(20, 39);
-        TRUSTING = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.BOOLEAN);
-        TRUSTED = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.STRING);
+        TRUSTING = SynchedEntityData.defineId(Otter.class, EntityDataSerializers.BOOLEAN);
+        TRUSTED = SynchedEntityData.defineId(Otter.class, EntityDataSerializers.STRING);
     }
 
-    public OtterEntity(EntityType<? extends OtterEntity> entityType, Level world) {
+    public Otter(EntityType<? extends Otter> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -76,11 +77,12 @@ public class OtterEntity extends Animal implements NeutralMob {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.5));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, true));
-        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(3, new OtterBreedGoal(this, 1.0));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(8, new OtterFindLandGoal(this, 1.0F));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
         this.targetSelector.addGoal(2, (new HurtByTargetGoal(this)).setAlertOthers(Player.class));
         this.targetSelector.addGoal(3, new ResetUniversalAngerTargetGoal<>(this, true));
@@ -124,8 +126,13 @@ public class OtterEntity extends Animal implements NeutralMob {
     }
 
     @Override
-    public @Nullable AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageableMob) {
+    public @Nullable Otter getBreedOffspring(ServerLevel world, AgeableMob ageableMob) {
         return OttahMod.OTTER.create(world, EntitySpawnReason.BREEDING);
+    }
+
+    @Override
+    public void finalizeSpawnChildFromBreeding(ServerLevel serverLevel, Animal animal, @Nullable AgeableMob ageableMob) {
+        super.finalizeSpawnChildFromBreeding(serverLevel, animal, ageableMob);
     }
 
     @Override
@@ -246,7 +253,10 @@ public class OtterEntity extends Animal implements NeutralMob {
 
     @Override
     public void checkDespawn() {
-        if (!this.isTrusting() && this.age > 2400) this.discard();
+        if (this.level().getNearestPlayer(this, 48) == null
+                && !this.isTrusting()
+                && this.age > 2400
+        ) this.discard();
     }
 
     @Override
@@ -297,5 +307,19 @@ public class OtterEntity extends Animal implements NeutralMob {
     @Override
     public void startPersistentAngerTimer() {
         this.setRemainingPersistentAngerTime(ANGER_TIME_RANGE.sample(this.random));
+    }
+
+    @Override
+    public @Nullable LeashData getLeashData() {
+        return super.getLeashData();
+    }
+
+    public void clearStates() {
+//        this.setIsInterested(false);
+//        this.setIsCrouching(false);
+//        this.setSitting(false);
+//        this.setSleeping(false);
+//        this.setDefending(false);
+//        this.setFaceplanted(false);
     }
 }

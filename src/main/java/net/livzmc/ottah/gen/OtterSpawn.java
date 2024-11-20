@@ -15,6 +15,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class OtterSpawn {
@@ -29,12 +30,25 @@ public class OtterSpawn {
     }
 
     public static void init() {
-        Predicate<BiomeSelectionContext> biomeSelector = tag(BiomeTags.IS_BEACH);
-        addSpawn(
-                biomeSelector.and(BiomeSelectors.foundInOverworld()),
-                OttahMod.OTTER.getCategory(),
-                new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SPAWN_RATE, 2, 4)
-        );
+        List<Predicate<BiomeSelectionContext>> okayBiomes = List.of(tag(BiomeTags.IS_BEACH));
+        List<Predicate<BiomeSelectionContext>> preferredBiomes = List.of(tag(BiomeTags.IS_RIVER));
+
+        for (Predicate<BiomeSelectionContext> biome : preferredBiomes) {
+            int maxSpawnAmount = 6;
+            int leastSpawnAmount = 2;
+            addSpawn(biome.and(BiomeSelectors.foundInOverworld()),
+                    OttahMod.OTTER.getCategory(),
+                    new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SPAWN_RATE, leastSpawnAmount, maxSpawnAmount));
+        }
+
+        for (Predicate<BiomeSelectionContext> biome : okayBiomes) {
+            int maxSpawnAmount = 4;
+            int leastSpawnAmount = 2;
+            addSpawn(biome
+                    .and(BiomeSelectors.foundInOverworld()),
+                    OttahMod.OTTER.getCategory(),
+                    new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SPAWN_RATE, leastSpawnAmount, maxSpawnAmount));
+        }
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {
