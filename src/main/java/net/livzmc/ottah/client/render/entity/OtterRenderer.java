@@ -6,23 +6,27 @@ import net.livzmc.ottah.Config;
 import net.livzmc.ottah.client.OttahModClient;
 import net.livzmc.ottah.client.render.entity.animation.OtterRenderState;
 import net.livzmc.ottah.client.render.entity.model.OtterEntityModel;
-import net.livzmc.ottah.entity.passive.OtterEntity;
-import net.minecraft.client.model.PolarBearModel;
+import net.livzmc.ottah.client.render.entity.model.OtterLeashedModel;
+import net.livzmc.ottah.entity.passive.Otter;
+import net.minecraft.client.model.PigModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.AgeableMobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.PolarBearRenderState;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.animal.PolarBear;
 import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
-public class OtterEntityRenderer extends AgeableMobRenderer<OtterEntity, OtterRenderState, OtterEntityModel> {
+public class OtterRenderer extends AgeableMobRenderer<Otter, OtterRenderState, OtterEntityModel> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, "textures/entity/otter/otter.png");
 
-    public OtterEntityRenderer(EntityRendererProvider.Context context) {
+    public OtterRenderer(EntityRendererProvider.Context context) {
         // Second Entity could be a Baby. Look at the PolarBearRenderer for an example
-        super(context, new OtterEntityModel(context.bakeLayer(OttahModClient.MODEL_OTTER_LAYER)), new OtterEntityModel(context.bakeLayer(OttahModClient.MODEL_OTTER_LAYER)), 0.4f);
+        super(context, new OtterEntityModel(context.bakeLayer(OttahModClient.OTTER)), new OtterEntityModel(context.bakeLayer(OttahModClient.OTTER)), 0.4f);
+        this.addLayer(new OtterLeashedModel(
+                this, new OtterEntityModel(context.bakeLayer(OttahModClient.OTTER_LEASHED)),
+                new OtterEntityModel(context.bakeLayer(OttahModClient.OTTER_LEASHED)),
+                ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, "textures/entity/otter/otter_leashed.png"))
+        );
     }
 
     @Override
@@ -35,8 +39,10 @@ public class OtterEntityRenderer extends AgeableMobRenderer<OtterEntity, OtterRe
         return TEXTURE;
     }
 
-    public void extractRenderState(OtterEntity otterEntity, OtterRenderState otterRenderState, float f) {
-        super.extractRenderState(otterEntity, otterRenderState, f);
+    public void extractRenderState(Otter otter, OtterRenderState otterRenderState, float f) {
+        super.extractRenderState(otter, otterRenderState, f);
+        otterRenderState.isLeashed = otter.isLeashed();
+
 //        polarBearRenderState.standScale = polarBear.getStandingAnimationScale(f);
         // if want to make standing.
     }

@@ -1,14 +1,16 @@
 package net.livzmc.ottah.client.render.entity.animation;
 
 
+import net.livzmc.ottah.client.render.entity.model.LeashedRenderState;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
-public class OtterRenderState extends LivingEntityRenderState {
+public class OtterRenderState extends LivingEntityRenderState implements LeashedRenderState {
     public static AnimationDefinition WALK;
+    public boolean isLeashed;
 
     static {
         WALK = AnimationDefinition.Builder.withLength(1.0F).looping()
@@ -116,5 +118,10 @@ public class OtterRenderState extends LivingEntityRenderState {
                                 )
                         )
                 ).build();
+    }
+
+    @Override
+    public boolean isLeashed() {
+        return this.isLeashed;
     }
 }
