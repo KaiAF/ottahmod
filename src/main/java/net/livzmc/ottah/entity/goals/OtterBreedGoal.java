@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.level.GameRules;
@@ -36,7 +37,7 @@ public class OtterBreedGoal extends BreedGoal {
         Vec3 findMiddleBreedingZone = breedingZone.getCenter();
         if (!inBreedZone) {
             this.animal.getNavigation().moveTo(findMiddleBreedingZone.x + 0.5, findMiddleBreedingZone.y + 1, findMiddleBreedingZone.z + 0.5, this.speedModifier);
-            this.partner.getNavigation().moveTo(findMiddleBreedingZone.x + 0.5, findMiddleBreedingZone.y + 1, findMiddleBreedingZone.z + 0.5, this.speedModifier);
+            this.partner.getNavigation().moveTo(this.partner, this.speedModifier);
             if (breedingZone.contains(Vec3.atLowerCornerOf(this.animal.blockPosition()))) inBreedZone = true;
             return;
         }
