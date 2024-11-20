@@ -4,9 +4,6 @@ import net.livzmc.ottah.OttahMod;
 import net.livzmc.ottah.entity.goals.OtterBreedGoal;
 import net.livzmc.ottah.entity.goals.OtterFindLandGoal;
 import net.livzmc.ottah.sound.OtterSounds;
-import net.minecraft.client.model.SheepFurModel;
-import net.minecraft.client.renderer.entity.PigRenderer;
-import net.minecraft.client.renderer.entity.state.SaddleableRenderState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
@@ -30,7 +27,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -302,6 +298,12 @@ public class Otter extends Animal implements NeutralMob {
     @Override
     public @Nullable LeashData getLeashData() {
         return super.getLeashData();
+    }
+
+    @Override
+    public void setInLove(@Nullable Player player) {
+        super.setInLove(player);
+        this.inLove = 12000;
     }
 
     public void clearStates() {
