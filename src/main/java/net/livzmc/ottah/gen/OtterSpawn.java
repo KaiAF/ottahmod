@@ -6,30 +6,31 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
 import net.livzmc.ottah.OttahMod;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.tag.BiomeTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 
 import java.util.function.Predicate;
 
 public class OtterSpawn {
-    private static int SpawnRate = 100;
+    private final static int SpawnRate = 100;
 
-    public static void addSpawn(Predicate<BiomeSelectionContext> BiomeSelector, SpawnGroup spawnGroup, SpawnSettings.SpawnEntry se) {
-        Preconditions.checkArgument(se.type.getSpawnGroup() != SpawnGroup.MISC, "MISC spawns pigs");
+    public static void addSpawn(Predicate<BiomeSelectionContext> BiomeSelector, MobCategory spawnGroup, MobSpawnSettings.SpawnerData se) {
+        Preconditions.checkArgument(se.type.getCategory() != MobCategory.MISC, "MISC spawns pigs");
 
-        Identifier id = Registries.ENTITY_TYPE.getId(se.type);
-        Preconditions.checkState(id != Registries.ENTITY_TYPE.getDefaultId(), "Unregistered entity type: %s");
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(se.type);
+        Preconditions.checkState(id != Registries.ENTITY_TYPE.registry(), "Unregistered entity type: %s");
         BiomeModifications.create(id).add(ModificationPhase.ADDITIONS, BiomeSelector, context -> context.getSpawnSettings().addSpawn(spawnGroup, se));
     }
 
     private static void normalSpawn() {
         Predicate<BiomeSelectionContext> biomeSelector = tag(BiomeTags.IS_BEACH);
-        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.OTTER.getSpawnGroup(), new SpawnSettings.SpawnEntry(OttahMod.OTTER, SpawnRate, 2, 4));
+        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.OTTER.getCategory(), new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SpawnRate, 2, 4));
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {

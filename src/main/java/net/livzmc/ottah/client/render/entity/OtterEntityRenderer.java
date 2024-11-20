@@ -4,29 +4,40 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.livzmc.ottah.Config;
 import net.livzmc.ottah.client.OttahModClient;
+import net.livzmc.ottah.client.render.entity.animation.OtterRenderState;
 import net.livzmc.ottah.client.render.entity.model.OtterEntityModel;
 import net.livzmc.ottah.entity.passive.OtterEntity;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.PolarBearModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.AgeableMobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.PolarBearRenderState;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.animal.PolarBear;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
-public class OtterEntityRenderer extends MobEntityRenderer<OtterEntity, OtterEntityModel<OtterEntity>> {
-    private static final Identifier TEXTURE = new Identifier(Config.MOD_ID, "textures/entity/otter/otter.png");
+public class OtterEntityRenderer extends AgeableMobRenderer<OtterEntity, OtterRenderState, OtterEntityModel> {
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, "textures/entity/otter/otter.png");
 
-    public OtterEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new OtterEntityModel<>(context.getPart(OttahModClient.MODEL_OTTER_LAYER)), 0.4f);
+    public OtterEntityRenderer(EntityRendererProvider.Context context) {
+        // Second Entity could be a Baby. Look at the PolarBearRenderer for an example
+        super(context, new OtterEntityModel(context.bakeLayer(OttahModClient.MODEL_OTTER_LAYER)), new OtterEntityModel(context.bakeLayer(OttahModClient.MODEL_OTTER_LAYER)), 0.4f);
     }
 
     @Override
-    public void render(OtterEntity otterEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        super.render(otterEntity, f, g, matrixStack, vertexConsumerProvider, i);
+    public @NotNull OtterRenderState createRenderState() {
+        return new OtterRenderState();
     }
 
     @Override
-    public Identifier getTexture(OtterEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(OtterRenderState livingEntityRenderState) {
         return TEXTURE;
+    }
+
+    public void extractRenderState(OtterEntity otterEntity, OtterRenderState otterRenderState, float f) {
+        super.extractRenderState(otterEntity, otterRenderState, f);
+//        polarBearRenderState.standScale = polarBear.getStandingAnimationScale(f);
+        // if want to make standing.
     }
 }

@@ -9,15 +9,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
 public class OttahModClient implements ClientModInitializer {
-    public static final EntityModelLayer MODEL_OTTER_LAYER = new EntityModelLayer(new Identifier(Config.MOD_ID, "otter"), "main");
+    public static final ModelLayerLocation MODEL_OTTER_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, "otter"), "main");
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(OttahMod.OTTER, OtterEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_OTTER_LAYER, OtterEntityModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_OTTER_LAYER, OtterEntityModel::getTexturedMeshDefinition);
     }
 }

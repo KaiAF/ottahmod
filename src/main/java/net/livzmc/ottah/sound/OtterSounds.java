@@ -1,9 +1,10 @@
 package net.livzmc.ottah.sound;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 
 public class OtterSounds {
     public static SoundEvent ENTITY_OTTER_HURT = register("entity.otter.hurt");
@@ -13,7 +14,7 @@ public class OtterSounds {
     public void sounds() {}
 
     private static SoundEvent register(String name) {
-        Identifier id = new Identifier("ottah", name);
-        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("ottah", name);
+        return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 }
