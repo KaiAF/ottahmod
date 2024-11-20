@@ -18,7 +18,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import java.util.function.Predicate;
 
 public class OtterSpawn {
-    private final static int SpawnRate = 100;
+    private final static int SPAWN_RATE = 100;
 
     public static void addSpawn(Predicate<BiomeSelectionContext> BiomeSelector, MobCategory spawnGroup, MobSpawnSettings.SpawnerData se) {
         Preconditions.checkArgument(se.type.getCategory() != MobCategory.MISC, "MISC spawns pigs");
@@ -28,16 +28,16 @@ public class OtterSpawn {
         BiomeModifications.create(id).add(ModificationPhase.ADDITIONS, BiomeSelector, context -> context.getSpawnSettings().addSpawn(spawnGroup, se));
     }
 
-    private static void normalSpawn() {
+    public static void init() {
         Predicate<BiomeSelectionContext> biomeSelector = tag(BiomeTags.IS_BEACH);
-        addSpawn(biomeSelector.and(BiomeSelectors.foundInOverworld()), OttahMod.OTTER.getCategory(), new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SpawnRate, 2, 4));
+        addSpawn(
+                biomeSelector.and(BiomeSelectors.foundInOverworld()),
+                OttahMod.OTTER.getCategory(),
+                new MobSpawnSettings.SpawnerData(OttahMod.OTTER, SPAWN_RATE, 2, 4)
+        );
     }
 
     private static Predicate<BiomeSelectionContext> tag(TagKey<Biome> tag) {
         return BiomeSelectors.tag(tag);
-    }
-
-    public static void init() {
-        normalSpawn();
     }
 }

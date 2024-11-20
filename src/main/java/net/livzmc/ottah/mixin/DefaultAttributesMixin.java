@@ -1,6 +1,5 @@
 package net.livzmc.ottah.mixin;
 
-import com.google.common.collect.ImmutableMap;
 import net.livzmc.ottah.OttahMod;
 import net.livzmc.ottah.entity.passive.OtterEntity;
 import net.minecraft.world.entity.EntityType;
@@ -19,14 +18,12 @@ import java.util.Map;
 
 @Mixin(DefaultAttributes.class)
 public class DefaultAttributesMixin {
-
     @Shadow @Final private static Map<EntityType<? extends LivingEntity>, AttributeSupplier> SUPPLIERS;
 
     @Inject(at = @At("RETURN"), method = "getSupplier", cancellable = true)
     private static void supplierMix(EntityType<? extends LivingEntity> entityType, CallbackInfoReturnable<AttributeSupplier> cir) {
         Map<EntityType, AttributeSupplier> mutableSuppliers = new HashMap<>(SUPPLIERS);
         mutableSuppliers.put(OttahMod.OTTER, OtterEntity.defaultAttributes().build());
-        cir.setReturnValue((AttributeSupplier) mutableSuppliers.get(entityType));
-
+        cir.setReturnValue(mutableSuppliers.get(entityType));
     }
 }

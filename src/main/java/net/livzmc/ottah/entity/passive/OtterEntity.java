@@ -18,15 +18,29 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.*;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.axolotl.Axolotl;
-import net.minecraft.world.entity.animal.axolotl.AxolotlAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,13 +53,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public class OtterEntity extends Animal implements NeutralMob {
+    public static AnimationState WALK_ANIMATION = new AnimationState();
     private static final EntityDataAccessor<Integer> ANGER_TIME;
     private static final EntityDataAccessor<Boolean> TRUSTING;
     private static final EntityDataAccessor<String> TRUSTED;
     private static final UniformInt ANGER_TIME_RANGE;
-    @Nullable
-    private UUID angryAt;
-    public static AnimationState WALK_ANIMATION = new AnimationState();
+    @Nullable private UUID angryAt;
+
+    static {
+        ANGER_TIME = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.INT);
+        ANGER_TIME_RANGE = TimeUtil.rangeOfSeconds(20, 39);
+        TRUSTING = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.BOOLEAN);
+        TRUSTED = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.STRING);
+    }
+
     public OtterEntity(EntityType<? extends OtterEntity> entityType, Level world) {
         super(entityType, world);
     }
@@ -143,15 +164,6 @@ public class OtterEntity extends Animal implements NeutralMob {
         builder.define(TRUSTED, "");
     }
 
-    static {
-        ANGER_TIME = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.INT);
-        ANGER_TIME_RANGE = TimeUtil.rangeOfSeconds(20, 39);
-        TRUSTING = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.BOOLEAN);
-        TRUSTED = SynchedEntityData.defineId(OtterEntity.class, EntityDataSerializers.STRING);
-    }
-
-
-
     @Override
     public boolean doHurtTarget(ServerLevel world, Entity target) {
         boolean bl = target.hurtServer(world, this.damageSources().mobAttack(this), (float)((int)this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
@@ -192,6 +204,7 @@ public class OtterEntity extends Animal implements NeutralMob {
                 WALK_ANIMATION.stop();
             }
         }
+
         super.tick();
     }
 

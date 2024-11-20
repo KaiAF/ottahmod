@@ -1,7 +1,6 @@
 package net.livzmc.ottah.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.livzmc.ottah.Config;
 import net.livzmc.ottah.OttahMod;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,14 +12,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 
 public class OttahItems {
-
     public static final Item OTTER_SPAWN_EGG = registerItem("otter_spawn_egg", new SpawnEggItem(OttahMod.OTTER, 0x866a67, 0xb3a28e,(new Item.Properties()
-            .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, "otter_spawn_egg"))))));
-
-
+            .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(OttahMod.MOD_ID, "otter_spawn_egg"))))));
 
     private static Item registerItem(String name, Item item) {
-        return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Config.MOD_ID, name), item);
+        return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(OttahMod.MOD_ID, name), item);
     }
 
     public static void registerModItems() {
